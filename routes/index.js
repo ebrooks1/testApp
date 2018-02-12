@@ -1,4 +1,6 @@
 var express = require('express');
+var mysql = require('mysql');
+var connect = require('../utils/sqlconnect');
 var router = express.Router();
 
 const templateTypes = [
@@ -10,10 +12,21 @@ const templateTypes = [
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', {
+
+
+  connect.query('SELECT * FROM mainmodel', (err, result, fields) => {
+    if (err) {
+      throw err; console.log(err);
+    } else {
+      console.log(result);
+    }
+  });
+
+  res.render('home', {
   title: 'Express',
-  message: "I like EJS",
-  templates : templateTypes
+  message: "I like Handlebars",
+  templates : templateTypes ,
+  anothermessage : "handlebars is awesome"
  });
 });
 
